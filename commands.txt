@@ -1,0 +1,33 @@
+Команда pyinstaller:
+pyinstaller -w -F -i "C:/Users/gorod/PycharmProjects/MathResultParser_fonbet_kz/icon-Py.ico" "parser.py"
+Команда для реформатирования дизайн файла:
+pyuic5 file.ui -o file.py
+
+Найти и отредактировать этот файл чтобы не появлялось окно консоли: находится по адресу
+Lib\site-packages\selenium\webdriver\common\service.py в папке Python.
+
+Добавить импорт:
+from subprocess import CREATE_NO_WINDOW
+
+Изменения кода:
+    def start(self):
+        """
+        Starts the Service.
+
+        :Exceptions:
+         - WebDriverException : Raised either when it can't start the service
+           or when it can't connect to the service
+        """
+        try:
+            cmd = [self.path]
+            cmd.extend(self.command_line_args())
+            # self.process = subprocess.Popen(cmd, env=self.env,
+            #                                 close_fds=platform.system() != 'Windows',
+            #                                 stdout=self.log_file,
+            #                                 stderr=self.log_file,
+            #                                 stdin=PIPE)
+            self.process = subprocess.Popen(cmd, env=self.env,
+                                            close_fds=platform.system() != 'Windows',
+                                            stdout=self.log_file,
+                                            stderr=self.log_file,
+                                            stdin=PIPE, creationflags=CREATE_NO_WINDOW)
